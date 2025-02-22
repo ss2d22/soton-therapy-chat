@@ -1,6 +1,7 @@
 import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import { MongoClient } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
+import authenticationRoutes from "./routes/authenticationRoutes.ts";
+import { MongoClient } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 
 /**
  * port to run the server on 
@@ -68,6 +69,12 @@ router.get("/", (ctx) => {
 
 //use the oak router
 app.use(router.routes());
+router.use(
+  "/api/authentication",
+  authenticationRoutes.routes(),
+  authenticationRoutes.allowedMethods()
+);
+
 app.use(router.allowedMethods());
 
 // lisgen on the port defined in the env file or 3000 as a fallback
@@ -77,6 +84,7 @@ if (import.meta.main) {
   });
   await app.listen({ port: PORT });
 }
+
 
 export { app, router };
 

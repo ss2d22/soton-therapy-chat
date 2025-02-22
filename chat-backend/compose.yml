@@ -1,0 +1,44 @@
+services:
+  mongodb:
+    container_name: mongodb
+    hostname: mongodb
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: soton_therapy
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      backend-network:
+        aliases:
+          - mongodb
+    ports:
+      - "27017:27017"
+
+  deno-app:
+    container_name: chat-backend-deno-app
+    hostname: deno-app
+    build:
+      context: .
+      dockerfile: Containerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - .:/app  s
+      - .env:/app/.env
+    networks:
+      backend-network:
+        aliases:
+          - deno-app
+    depends_on:
+      - mongodb
+    ports:
+      - "3000:3000"
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --allow-all --watch src/server.ts",
+    "dev": "deno run --env-file=.env --allow-all --watch src/server.ts",
     "test" : "deno test --allow-all tests/server_test.ts"
   },
   "imports": {
