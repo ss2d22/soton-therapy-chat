@@ -2,8 +2,9 @@ import { Context } from "https://deno.land/x/oak@v17.1.4/mod.ts";
 import { hash, compare } from "https://deno.land/x/bcrypt/mod.ts";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 import { User } from "../models/User.ts";
+import { importKeyFromEnv } from "../utils/key.ts";
 
-const JWT_KEY = Deno.env.get("JWT_ENCRYPTION_KEY") || "secret";
+const JWT_KEY = await importKeyFromEnv();
 
 /**
  * Handles user registration.
