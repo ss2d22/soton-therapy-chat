@@ -14,6 +14,8 @@ services:
           - mongodb
     ports:
       - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017
 
   deno-app:
     container_name: chat-backend-deno-app
@@ -32,7 +34,8 @@ services:
         aliases:
           - deno-app
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
     ports:
       - "3000:3000"
 
