@@ -9,7 +9,6 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 
 /**
  * JWT secret key from the env file
-
  * @author Sriram Sundar
  *
  * @type {CryptoKey}
