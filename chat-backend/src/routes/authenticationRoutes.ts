@@ -7,7 +7,7 @@ import {
 } from "../controllers/authenticationController.ts";
 import { verifyJWT } from "../middlewares/authenticationMiddleware.ts";
 
-const router = new Router();
+const router: Router = new Router();
 
 router.post("/signup", signUp);
 router.post("/signin", signIn);
