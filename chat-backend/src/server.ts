@@ -1,10 +1,9 @@
-import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
-import { oakCors } from "https://deno.land/x/cors/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v17.1.4/mod.ts";
+import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import authenticationRoutes from "./routes/authenticationRoutes.ts";
-import { MongoClient } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 
 /**
- * port to run the server on 
+ * port to run the server on
  *
  * @author Sriram Sundar
  * @type number
@@ -13,15 +12,7 @@ import { MongoClient } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 const PORT: number = Number(Deno.env.get("PORT")) || 3000;
 
 /**
- * mongodb server url 
- *
- * @author Sriram Sundar
- * @type string
- */
-const MONGO_URI: string = Deno.env.get("MONGODB_URI") || "";
-
-/**
- * origin url for the frontend application 
+ * origin url for the frontend application
  *
  * @author Sriram Sundar
  * @type string
@@ -29,12 +20,12 @@ const MONGO_URI: string = Deno.env.get("MONGODB_URI") || "";
 const FRONT_ORIGIN: string = Deno.env.get("FRONT_ORIGIN") || "*";
 
 /**
- * oak application 
+ * instance of an oak application
  *
  * @author Sriram Sundar
  * @type Application
  */
-const app : Application = new Application();
+const app: Application = new Application();
 
 // set up logging middleware for the application
 app.use(async (ctx, next) => {
@@ -43,7 +34,6 @@ app.use(async (ctx, next) => {
   const ms = Date.now() - start;
   console.log(`${ctx.request.method} ${ctx.request.url} - ${ms}ms`);
 });
-
 
 // set up cors with oak's built in cors functionality
 app.use(
@@ -55,7 +45,7 @@ app.use(
 );
 
 /**
- * oak router 
+ * oak router
  *
  * @author Sriram Sundar
  * @type Router
@@ -85,8 +75,4 @@ if (import.meta.main) {
   await app.listen({ port: PORT });
 }
 
-
 export { app, router };
-
-
-
