@@ -1,7 +1,7 @@
 {
   "tasks": {
     "dev": "deno run --env-file=.env --allow-all --watch src/server.ts",
-    "test-local": "deno test --env-file=.env --env-file=.env --allow-all tests/",
+    "test-local-local": "deno test --env-file=.env --env-file=.env --allow-all tests/",
     "docs-json": "deno --allow-all src/utils/swaggerOptions.ts",
     "json-yaml": "deno --allow-all src/utils/jsonToYaml.ts",
     "generate-docs": "deno task docs-json && deno task json-yaml",
