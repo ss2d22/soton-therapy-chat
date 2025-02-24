@@ -4,6 +4,7 @@
     "jsr:@hey-api/openapi-ts@*": "0.53.2",
     "jsr:@lucsoft/web-bson@0.4": "0.4.0",
     "jsr:@oak/commons@1": "1.0.0",
+    "jsr:@std/assert@*": "1.0.11",
     "jsr:@std/assert@1": "1.0.11",
     "jsr:@std/bytes@1": "1.0.5",
     "jsr:@std/crypto@1": "1.0.4",
@@ -46,7 +47,7 @@
     "@oak/commons@1.0.0": {
       "integrity": "49805b55603c3627a9d6235c0655aa2b6222d3036b3a13ff0380c16368f607ac",
       "dependencies": [
-        "jsr:@std/assert",
+        "jsr:@std/assert@1",
         "jsr:@std/bytes",
         "jsr:@std/crypto@1",
         "jsr:@std/encoding@1",
@@ -830,6 +831,10 @@
     "https://deno.land/x/mongo@v0.34.0/src/protocol/mod.ts": "c5f626711e5c1347d98400a18d252306390f76f81335acb4f871a2b45d8d89bb",
     "https://deno.land/x/mongo@v0.34.0/src/protocol/protocol.ts": "6dae1ced4e1215df8938b5f648bf79a8f7fc80964f5c190538c66e67ba7dd8b2",
     "https://deno.land/x/mongo@v0.34.0/src/types.ts": "6fd5feec514a6b551743014cee3963d66476d50f6d44d05e2a3d0ee074f45fab",
+    "https://deno.land/x/mongo@v0.34.0/src/types/geojson.ts": "14690e2fa1591939253ddc9de181b0664051e9462db131b72be5fb9d064dff44",
+    "https://deno.land/x/mongo@v0.34.0/src/types/geospatial.ts": "c97097d1c25e8d22bbc4d8f6399431eb54cf06a850a76c6810f01bf1f5b6e62e",
+    "https://deno.land/x/mongo@v0.34.0/src/types/gridfs.ts": "6649bcc4efb34f32566cf43f335d9d2199b1922c3266652022b05e25b4407deb",
+    "https://deno.land/x/mongo@v0.34.0/src/types/read_write_concern.ts": "d00f35eb85520e776741888685d08d479766a19e9a0a970b53f4594c9db00496",
     "https://deno.land/x/mongo@v0.34.0/src/utils/ns.ts": "fb0c57b8dc4d31f8993112d267dec3c163d3e8862198d1cd03b2b51bcc3caad9",
     "https://deno.land/x/mongo@v0.34.0/src/utils/saslprep/load_code_points.ts": "88c3bee38b2f3e22a2900332ca69f443759b4772bfa65463d8871c9e895f1299",
     "https://deno.land/x/mongo@v0.34.0/src/utils/saslprep/memory_pager.ts": "f55a79a13ec569c21630c3915a9af0c6fc0aa2b899121fa2a85a813c6dd4afba",

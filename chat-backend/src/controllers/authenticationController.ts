@@ -1,7 +1,7 @@
 import { Context } from "https://deno.land/x/oak@v17.1.4/mod.ts";
 import { compare } from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
-import { User, UserSchema } from "../models/User.ts";
+import { UserSchema } from "../models/User.ts";
 import { importKeyFromEnv } from "../utils/key.ts";
 import { Body } from "https://deno.land/x/oak@v17.1.4/body.ts";
 import { SignInBody, SignUpBody } from "../types/index.d.ts";
