@@ -7,7 +7,7 @@ import {
 } from "../controllers/authenticationController.ts";
 import { verifyJWT } from "../middlewares/authenticationMiddleware.ts";
 
-const router: Router = new Router();
+const authRouter: Router = new Router();
 
 /**
  * @swagger
@@ -53,7 +53,7 @@ const router: Router = new Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/signup", signUp);
+authRouter.post("/signup", signUp);
 
 /**
  * @swagger
@@ -94,7 +94,7 @@ router.post("/signup", signUp);
  *       500:
  *         description: Internal server error
  */
-router.post("/signin", signIn);
+authRouter.post("/signin", signIn);
 
 /**
  * @swagger
@@ -119,7 +119,7 @@ router.post("/signin", signIn);
  *       500:
  *         description: Internal server error
  */
-router.get("/fetchuserinfo", verifyJWT, fetchUserInfo);
+authRouter.get("/fetchuserinfo", verifyJWT, fetchUserInfo);
 
 /**
  * @swagger
@@ -133,6 +133,6 @@ router.get("/fetchuserinfo", verifyJWT, fetchUserInfo);
  *       500:
  *         description: Internal server error
  */
-router.post("/signout", signOut);
+authRouter.post("/signout", signOut);
 
-export default router;
+export default authRouter;
