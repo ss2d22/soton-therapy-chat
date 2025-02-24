@@ -27,9 +27,9 @@ const swaggerOptions: swaggerJsDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "LiMedAi API Documentation",
+      title: "Soton-Therapy API Documentation",
       version: "1.0.7",
-      description: "API documentation for LiMedAi server for reference",
+      description: "API documentation for Soton-Therapy server",
     },
     servers: [
       {
