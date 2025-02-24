@@ -64,21 +64,11 @@ router.get("/", (ctx) => {
 app.use(router.routes());
 router.use(
   "/api/authentication",
-  authRouter.routes(),
-  authRouter.allowedMethods()
-);
-router.use(
-  "/api/messages",
-  messageRouter.routes(),
-  messageRouter.allowedMethods()
-);
-router.use(
-  "/api/ai-models",
-  aiModelRouter.routes(),
-  aiModelRouter.allowedMethods()
+  authenticationRoutes.routes(),
+  authenticationRoutes.allowedMethods()
 );
 
-const { io, handler } = setupSocket(app);
+app.use(router.allowedMethods());
 
 // listen on the port defined in the env file or 3000 as a fallback
 if (import.meta.main) {

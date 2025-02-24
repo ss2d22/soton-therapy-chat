@@ -1,5 +1,6 @@
 import { Context } from "https://deno.land/x/oak@v17.1.4/mod.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
+<<<<<<< HEAD
 import { Message } from "../models/Message.ts";
 import { db } from "../db/mongo.ts";
 import { escapeSpecialChars } from "../utils/textUtils.ts";
@@ -7,6 +8,14 @@ import { escapeSpecialChars } from "../utils/textUtils.ts";
 /**
  * Fetches messages between a user and an AI model.
  * Uses userId from JWT middleware.
+=======
+import { Message, MessageSchema } from "../models/Message.ts";
+import { Body } from "https://deno.land/x/oak@v17.1.4/body.ts";
+
+/**
+ * Fetches messages between a user and an AI model.
+ * Uses userId from JWT middleware instead of request body.
+>>>>>>> 4ebe96c (added unit tests with dependency injection)
  * @author Sriram Sundar
  *
  * @async
@@ -23,10 +32,20 @@ const fetchMessages = async (ctx: Context): Promise<void> => {
       return;
     }
 
+<<<<<<< HEAD
     const body = await ctx.request.body.json();
 
     const aiModelId: string = body.aiModelId;
     const receiverModel: "User" | "AIModel" = body.receiverModel;
+=======
+    const body: Body = ctx.request.body;
+    console.log(body);
+
+    const data = await body.json();
+
+    const aiModelId: string = data.aiModelId;
+    const receiverModel: "User" | "AIModel" = data.receiverModel;
+>>>>>>> 4ebe96c (added unit tests with dependency injection)
 
     if (!aiModelId || !receiverModel) {
       ctx.response.status = 400;
@@ -47,8 +66,12 @@ const fetchMessages = async (ctx: Context): Promise<void> => {
     const senderId = new ObjectId(userId);
     const modelId = new ObjectId(aiModelId);
 
+<<<<<<< HEAD
     // Get messages with filtering
     const messages = await Message.find({
+=======
+    const messages: MessageSchema[] = await Message.find({
+>>>>>>> 4ebe96c (added unit tests with dependency injection)
       $or: [
         {
           sender: senderId,
@@ -76,6 +99,7 @@ const fetchMessages = async (ctx: Context): Promise<void> => {
   }
 };
 
+<<<<<<< HEAD
 /**
  * Search for AI models by name or description
  * @author Sriram Sundar
@@ -131,3 +155,6 @@ const searchAIModels = async (ctx: Context): Promise<void> => {
 };
 
 export { fetchMessages, searchAIModels };
+=======
+export { fetchMessages };
+>>>>>>> 4ebe96c (added unit tests with dependency injection)
