@@ -1,10 +1,14 @@
 {
   "tasks": {
     "dev": "deno run --env-file=.env --allow-all --watch src/server.ts",
-    "test": "deno test --env-file=.env --allow-all tests/server_test.ts",
+    "test-local": "deno test --env-file=.env --allow-all tests/server_test.ts",
     "docs-json": "deno --allow-all src/utils/swaggerOptions.ts",
     "json-yaml": "deno --allow-all src/utils/jsonToYaml.ts",
-    "generate-docs": "deno task docs-json && deno task json-yaml"
+    "generate-docs": "deno task docs-json && deno task json-yaml",
+    "test": "docker-compose --file compose.test.yml up --build --abort-on-container-exit | grep \"deno\"",
+    "docker": "docker-compose up --build",
+    "docker-down": "docker-compose down",
+    "dockerd": "docker-compose up -d --build"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
