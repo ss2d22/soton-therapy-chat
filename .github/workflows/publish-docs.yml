@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -29,7 +29,7 @@ jobs:
           deno-version: "2.2.0"
 
       - name: Cache Deno dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4  
         with:
           path: ~/.cache/deno
           key: ${{ runner.os }}-deno-${{ hashFiles('deno.lock') }}
@@ -45,10 +45,11 @@ jobs:
         run: deno task generate-docs
 
       - name: Upload YML Documentation
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  
         with:
           name: api-doc-yml
           path: chat-backend/src/docs/openapi.yml
+          compression-level: 0 
 
   deploy-doc:
     name: Deploy API documentation
@@ -58,12 +59,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  
 
       - name: Download YML Documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4 
         with:
           name: api-doc-yml
+          path: ./  
 
       - name: List downloaded files (optional, for debugging)
         run: ls -la $GITHUB_WORKSPACE
@@ -83,12 +85,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 
 
       - name: Download YML Documentation
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4  
         with:
           name: api-doc-yml
+          path: ./
 
       - name: Comment pull request with API diff
         uses: bump-sh/github-action@v1
