@@ -33,7 +33,7 @@ export async function verifyJWT(
   try {
     const payload: Payload = await verify(token, JWT_KEY);
 
-    ctx.state.userId = payload._id;
+    ctx.state.userId = payload.id;
     await next();
   } catch (err) {
     console.error(err);

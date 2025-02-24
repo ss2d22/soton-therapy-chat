@@ -29,9 +29,9 @@ const app: Application = new Application();
 
 // set up logging middleware for the application
 app.use(async (ctx, next) => {
-  const start = Date.now();
+  const start: number = Date.now();
   await next();
-  const ms = Date.now() - start;
+  const ms: number = Date.now() - start;
   console.log(`${ctx.request.method} ${ctx.request.url} - ${ms}ms`);
 });
 
@@ -67,7 +67,7 @@ router.use(
 
 app.use(router.allowedMethods());
 
-// lisgen on the port defined in the env file or 3000 as a fallback
+// listen on the port defined in the env file or 3000 as a fallback
 if (import.meta.main) {
   app.addEventListener("listen", () => {
     console.log(`Server running on http://localhost:${PORT}`);
