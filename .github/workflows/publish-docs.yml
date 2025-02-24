@@ -1,0 +1,101 @@
+name: Auto Publish Docs
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-docs:
+    name: Generate API Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: "2.2.0"
+
+      - name: Cache Deno dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('deno.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
+
+      - name: Install dependencies
+        working-directory: chat-backend
+        run: deno cache src/utils/swaggerOptions.ts src/utils/jsonToYaml.ts
+
+      - name: Generate Documentation
+        working-directory: chat-backend
+        run: deno task generate-docs
+
+      - name: Upload YML Documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-doc-yml
+          path: chat-backend/src/docs/openapi.yml
+
+  deploy-doc:
+    name: Deploy API documentation
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    needs: generate-docs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download YML Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: api-doc-yml
+
+      - name: List downloaded files (optional, for debugging)
+        run: ls -la $GITHUB_WORKSPACE
+
+      - name: Deploy API documentation
+        uses: bump-sh/github-action@v1
+        with:
+          doc: Soton-therapy
+          token: ${{ secrets.BUMP_TOKEN }}
+          file: ./openapi.yml
+
+  api-diff:
+    name: Check API diff
+    runs-on: ubuntu-latest
+    needs: generate-docs
+    if: ${{ github.event_name == 'pull_request' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download YML Documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: api-doc-yml
+
+      - name: Comment pull request with API diff
+        uses: bump-sh/github-action@v1
+        with:
+          doc: Soton-therapy
+          token: ${{ secrets.BUMP_TOKEN }}
+          file: ./openapi.yml
+          command: diff
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
