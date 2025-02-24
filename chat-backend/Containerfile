@@ -10,5 +10,3 @@ COPY . .
 RUN deno cache src/server.ts
 
 
-CMD ["deno", "task", "dev"]
-
