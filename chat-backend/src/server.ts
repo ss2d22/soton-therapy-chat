@@ -1,7 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak@v17.1.4/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
-import authenticationRoutes from "./routes/authenticationRoutes.ts";
-
+import authRouter from "./routes/authenticationRoutes.ts";
+import messageRouter from "./routes/messageRoutes.ts";
 /**
  * port to run the server on
  *
@@ -61,10 +61,14 @@ router.get("/", (ctx) => {
 app.use(router.routes());
 router.use(
   "/api/authentication",
-  authenticationRoutes.routes(),
-  authenticationRoutes.allowedMethods()
+  authRouter.routes(),
+  authRouter.allowedMethods()
 );
-
+router.use(
+  "/api/messages",
+  messageRouter.routes(),
+  messageRouter.allowedMethods()
+);
 app.use(router.allowedMethods());
 
 // listen on the port defined in the env file or 3000 as a fallback

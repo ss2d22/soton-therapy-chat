@@ -1,16 +1,15 @@
 import { Context } from "https://deno.land/x/oak@v17.1.4/mod.ts";
-import { compare } from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 import { UserSchema } from "../models/User.ts";
 import { importKeyFromEnv } from "../utils/key.ts";
-import { Body } from "https://deno.land/x/oak@v17.1.4/body.ts";
 import { SignInBody, SignUpBody } from "../types/index.d.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
-import { insertUser, findUserByEmail, findUserById } from "../models/User.ts";
+import { deps } from "../deps.ts";
 
 /**
  * JWT secret key from the env file
  * @author Sriram Sundar
+ *
  *
  * @type {CryptoKey}
  */
@@ -23,7 +22,7 @@ const JWT_KEY: CryptoKey = await importKeyFromEnv();
  * @author Sriram Sundar
  *
  * @async
- * @param {Context} ctx
+ * @param {Context} ctx - Oak context.
  * @returns {Promise<void>}
  */
 const signUp = async (ctx: Context): Promise<void> => {
@@ -34,9 +33,7 @@ const signUp = async (ctx: Context): Promise<void> => {
       return;
     }
 
-    const body: Body = ctx.request.body;
-    const data: SignUpBody = await body.json();
-
+    const data: SignUpBody = await ctx.request.body.json();
     const { email, password } = data;
 
     if (!email || !password) {
@@ -45,15 +42,16 @@ const signUp = async (ctx: Context): Promise<void> => {
       return;
     }
 
-    const existingUser: UserSchema | undefined = await findUserByEmail(email);
-
+    const existingUser: UserSchema | undefined = await deps.findUserByEmail(
+      email
+    );
     if (existingUser) {
       ctx.response.status = 400;
       ctx.response.body = { error: "Email already in use" };
       return;
     }
 
-    const insertId: ObjectId = await insertUser({
+    const insertId: ObjectId = await deps.insertUser({
       email,
       password,
       firstName: "",
@@ -91,7 +89,7 @@ const signUp = async (ctx: Context): Promise<void> => {
  * @author Sriram Sundar
  *
  * @async
- * @param {Context} ctx
+ * @param {Context} ctx - Oak context.
  * @returns {Promise<void>}
  */
 const signIn = async (ctx: Context): Promise<void> => {
@@ -111,14 +109,14 @@ const signIn = async (ctx: Context): Promise<void> => {
       return;
     }
 
-    const user: UserSchema | undefined = await findUserByEmail(email);
+    const user: UserSchema | undefined = await deps.findUserByEmail(email);
     if (!user) {
       ctx.response.status = 400;
       ctx.response.body = { error: "Email not found" };
       return;
     }
 
-    const validPassword: boolean = await compare(password, user.password);
+    const validPassword: boolean = await deps.compare(password, user.password);
     if (!validPassword) {
       ctx.response.status = 400;
       ctx.response.body = { error: "Incorrect password" };
@@ -127,7 +125,7 @@ const signIn = async (ctx: Context): Promise<void> => {
 
     const token: string = await create(
       { alg: "HS512", typ: "JWT" },
-      { id: user._id, exp: getNumericDate(60 * 60 * 24) },
+      { id: user._id.toString(), exp: getNumericDate(60 * 60 * 24) },
       JWT_KEY
     );
 
@@ -158,21 +156,19 @@ const signIn = async (ctx: Context): Promise<void> => {
  * @author Sriram Sundar
  *
  * @async
- * @param {Context} ctx
+ * @param {Context} ctx - Oak context.
  * @returns {Promise<void>}
  */
 const fetchUserInfo = async (ctx: Context): Promise<void> => {
   try {
     const userId: string = ctx.state.userId;
-
     if (!userId) {
       ctx.response.status = 401;
       ctx.response.body = { error: "User not authenticated" };
       return;
     }
 
-    const user: UserSchema | undefined = await findUserById(userId);
-
+    const user: UserSchema | undefined = await deps.findUserById(userId);
     if (!user) {
       ctx.response.status = 404;
       ctx.response.body = { error: "User not found" };
@@ -203,7 +199,7 @@ const fetchUserInfo = async (ctx: Context): Promise<void> => {
  * @author Sriram Sundar
  *
  * @async
- * @param {Context} ctx
+ * @param {Context} ctx - Oak context.
  * @returns {Promise<void>}
  */
 const signOut = async (ctx: Context): Promise<void> => {
