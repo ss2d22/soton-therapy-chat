@@ -6,8 +6,6 @@ services:
     restart: always
     environment:
       MONGO_INITDB_DATABASE: soton_therapy
-    volumes:
-      - mongodb_data:/data/db
     networks:
       backend-network:
         aliases:
@@ -18,18 +16,14 @@ services:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017
 
   deno-app:
-    container_name: chat-backend-deno-app
+    container_name: deno-app
     hostname: deno-app
-    command: deno task dev
+    command: deno task test-local
     build:
       context: .
       dockerfile: Containerfile
-    restart: always
     env_file:
       - .env
-    volumes:
-      - .:/app  s
-      - .env:/app/.env
     networks:
       backend-network:
         aliases:
