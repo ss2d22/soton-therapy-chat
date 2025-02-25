@@ -2,6 +2,9 @@ import { Application, Router } from "https://deno.land/x/oak@v17.1.4/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import authRouter from "./routes/authenticationRoutes.ts";
 import messageRouter from "./routes/messageRoutes.ts";
+import aiModelRouter from "./routes/aiModelRoutes.ts";
+import setupSocket from "./utils/socketSetup.ts";
+
 /**
  * port to run the server on
  *
@@ -69,14 +72,22 @@ router.use(
   messageRouter.routes(),
   messageRouter.allowedMethods()
 );
-app.use(router.allowedMethods());
+router.use(
+  "/api/ai-models",
+  aiModelRouter.routes(),
+  aiModelRouter.allowedMethods()
+);
+
+const { io, handler } = setupSocket(app);
 
 // listen on the port defined in the env file or 3000 as a fallback
 if (import.meta.main) {
-  app.addEventListener("listen", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  Deno.serve({
+    handler,
+    port: PORT,
+    onListen: ({ port }) => {
+      console.log(`Server running on http://localhost:${port}`);
+    },
   });
-  await app.listen({ port: PORT });
 }
-
-export { app, router };
+export { app, router, io };
