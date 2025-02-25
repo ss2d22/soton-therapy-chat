@@ -12,12 +12,11 @@ interface AIModelSchema {
   _id: ObjectId;
   name: string;
   description?: string;
-  model: string; 
+  model: string;
   temperature: number;
   systemPrompt: string;
   active: boolean;
 }
-
 
 const AIModel: Collection<AIModelSchema> =
   db.collection<AIModelSchema>("aimodels");
