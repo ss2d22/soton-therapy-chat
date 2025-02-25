@@ -1,11 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/deno,macos,windows,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=deno,macos,windows,linux
-
+src/assets/old.txt
 ### Deno ###
 /.idea/
 /.vscode/
 
 /node_modules
+
+src/assets/vectors
 
 .env
 *.orig
