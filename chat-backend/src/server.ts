@@ -67,7 +67,6 @@ router.use(
   authenticationRoutes.routes(),
   authenticationRoutes.allowedMethods()
 );
-
 app.use(router.allowedMethods());
 
 // listen on the port defined in the env file or 3000 as a fallback

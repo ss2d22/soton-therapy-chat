@@ -8,6 +8,8 @@ src/assets/old.txt
 /node_modules
 
 
+src/assets/vectors
+
 .env
 *.orig
 *.pyc
