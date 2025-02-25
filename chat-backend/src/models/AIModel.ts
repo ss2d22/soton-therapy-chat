@@ -15,15 +15,13 @@ interface AIModelSchema {
 <<<<<<< HEAD
   model: string;
 =======
-  model: string; 
+  model: string;
 >>>>>>> ae7a34f (did message related stuff)
   temperature: number;
   systemPrompt: string;
   active: boolean;
 }
 
-<<<<<<< HEAD
-=======
 
 >>>>>>> ae7a34f (did message related stuff)
 const AIModel: Collection<AIModelSchema> =
