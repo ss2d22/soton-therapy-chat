@@ -7,6 +7,11 @@ src/assets/old.txt
 
 /node_modules
 
+<<<<<<< HEAD
+
+src/assets/vectors
+=======
+>>>>>>> 52d3a95 (vectors)
 
 .env
 *.orig
