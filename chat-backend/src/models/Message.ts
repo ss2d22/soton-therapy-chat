@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 import { Collection, ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
 import { db } from "../db/mongo.ts";
 
@@ -7,6 +9,22 @@ import { db } from "../db/mongo.ts";
  *
  * @interface MessageSchema
  * @typedef {MessageSchema}
+=======
+=======
+import { Collection, ObjectId } from "https://deno.land/x/mongo@v0.34.0/mod.ts";
+>>>>>>> ae7a34f (did message related stuff)
+import { db } from "../db/mongo.ts";
+
+/**
+ * Message Schema Interface
+<<<<<<< HEAD
+>>>>>>> a49f639 (added testing capabilities with docker and relevant useful deno tasks)
+=======
+ * @author Sriram Sundar
+ *
+ * @interface MessageSchema
+ * @typedef {MessageSchema}
+>>>>>>> ae7a34f (did message related stuff)
  */
 interface MessageSchema {
   _id: ObjectId;
@@ -15,6 +33,8 @@ interface MessageSchema {
   senderModel: "User" | "AIModel";
   receiverModel: "User" | "AIModel";
   message: string;
+<<<<<<< HEAD
+<<<<<<< HEAD
   messageType: "text" | "file" | "context";
   timeStamp: Date;
 }
@@ -30,6 +50,28 @@ const Message: Collection<MessageSchema> =
  * @async
  * @param {Omit<MessageSchema, "_id">} message
  * @returns {Promise<ObjectId>}
+=======
+=======
+  messageType: "text" | "file" | "context";
+>>>>>>> ae7a34f (did message related stuff)
+  timeStamp: Date;
+}
+
+
+const Message: Collection<MessageSchema> =
+  db.collection<MessageSchema>("messages");
+
+/**
+ * Inserts a message into the database
+<<<<<<< HEAD
+>>>>>>> a49f639 (added testing capabilities with docker and relevant useful deno tasks)
+=======
+ * @author Sriram Sundar
+ *
+ * @async
+ * @param {Omit<MessageSchema, "_id">} message
+ * @returns {Promise<ObjectId>}
+>>>>>>> ae7a34f (did message related stuff)
  */
 const insertMessage = async (
   message: Omit<MessageSchema, "_id">
@@ -43,12 +85,21 @@ const insertMessage = async (
 
 /**
  * Fetches messages between a user and an AI model
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ae7a34f (did message related stuff)
  * @author Sriram Sundar
  *
  * @async
  * @param {string} userId
  * @param {string} aiModelId
  * @returns {Promise<MessageSchema[]>}
+<<<<<<< HEAD
+=======
+>>>>>>> a49f639 (added testing capabilities with docker and relevant useful deno tasks)
+=======
+>>>>>>> ae7a34f (did message related stuff)
  */
 const fetchMessages = async (
   userId: string,
