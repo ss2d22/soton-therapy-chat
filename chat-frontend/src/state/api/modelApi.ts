@@ -19,10 +19,9 @@ export const modelsApi = createApi({
     tagTypes: [],
     endpoints: (build) => ({
         getModelsList: build.query({
-            query: (payload) => ({
+            query: () => ({
                 url: GET_ACTIVE_MODELS_URL,
                 method: "GET",
-                body: payload as string,
             }),
         }),
     }),

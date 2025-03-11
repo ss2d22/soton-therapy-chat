@@ -11,7 +11,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // Define our single API slice object
 export const authApi = createApi({
   reducerPath: "main",
-  baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL, credentials: "include", }),
   endpoints: (builder) => ({
     postSignUp: builder.mutation({
       query: (payload) => ({
