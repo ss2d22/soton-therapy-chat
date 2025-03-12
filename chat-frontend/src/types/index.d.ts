@@ -173,3 +173,13 @@ export interface ChatState {
   selectedChatMessages: ChatMessage[];
   selectedModel : aiModelDetails | undefined;
 }
+
+interface SocketProviderProps {
+  /**
+   * children passed in to be rendered if conditions are met
+   * @author Sriram Sundar
+   *
+   * @type {ReactNode}
+   */
+  children: ReactNode;
+}

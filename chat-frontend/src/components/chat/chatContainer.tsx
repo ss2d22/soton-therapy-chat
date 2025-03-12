@@ -12,17 +12,36 @@ import ChatList from "@/components/chat/chatList.tsx";
 import MessageList from "@/components/chat/messageList.tsx";
 import {ScrollArea} from "@radix-ui/react-scroll-area";
 import {useState} from "react";
-import {useGetUserModelsMutation} from "@/state/api/modelApi.ts";
 import {usePostFetchMessagesMutation} from "@/state/api/messagesApi.ts";
 import {useEffectAsync} from "@/hooks/useEffectAsync.tsx";
-import {setUserInfo} from "@/state/slices/authSlice.ts";
+import {selectUserInfo, setUserInfo} from "@/state/slices/authSlice.ts";
 import {AppDispatch} from "@/types";
+import {useSocket} from "@/hooks/useSocket";
 
 const MessageInput = () => {
     const [currentMessage, setCurrentMessage] = useState("");
+    const socket = useSocket();
+    const userInfo = useSelector(selectUserInfo);
+    const model = useSelector(selectSelectedModel);
+
+    const sendMessage = () => {
+        if (!currentMessage.trim()) return;
+        console.log("sending message");
+
+        console.log("socket: " + socket);
+        socket?.emit("send-message", {
+            sender: userInfo?.id,
+            content: currentMessage,
+            receiver: model?.id,
+            receiverModel: "AIModel",
+            isAI: false,
+            messageType: "text",
+        });
+        setCurrentMessage("");
+    };
 
     const handleSend = async () => {
-        setCurrentMessage("");
+        sendMessage();
     }
 
     return (
@@ -72,11 +91,6 @@ const ChatContainer: React.FC = () => {
             }
         };
         await getMessages();
-        // if (!messages) {
-        //
-        // } else {
-        //     setLoading(false);
-        // }
     }, []);
 
     return (
@@ -88,7 +102,8 @@ const ChatContainer: React.FC = () => {
             </div>
 
             {/* Chat Area */}
-            <div className="flex w-70 flex-col flex-1">
+            {isLoading ? <div>Loading history...</div> :
+                <div className="flex w-70 flex-col flex-1">
                 <div className="w-full flex-1 overflow-y-auto p-4">
                     <ScrollArea>
                         <MessageList messages={messages} />
@@ -99,7 +114,7 @@ const ChatContainer: React.FC = () => {
                     <MessageInput />
                 </div>
 
-            </div>
+            </div>}
         </div>
     );
 };
