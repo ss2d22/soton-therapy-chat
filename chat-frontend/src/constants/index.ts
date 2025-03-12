@@ -10,3 +10,5 @@ export const AI_URL : string = BACKEND_URL + "/api/ai-models";
 export const GET_ACTIVE_MODELS_URL = AI_URL + "/";
 export const GET_USER_MODELS_URL = AI_URL + "/user";
 export const SEARCH_MODELS_URL = AI_URL + "/search";
+export const MESSAGES_URL : string = BACKEND_URL + "/api/messages";
+export const GET_MESSAGES_URL = MESSAGES_URL + "/fetchmessages";

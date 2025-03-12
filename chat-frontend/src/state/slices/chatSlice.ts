@@ -131,3 +131,4 @@ export const selectChatLoading = (state: { chat: ChatState }) =>
 export const selectChatError = (state: { chat: ChatState }) => state.chat.error;
 
 export const selectUserModels = (state: {chat: ChatState}) => state.chat.userModels;
+export const selectSelectedModel = (state: { chat: ChatState }) => state.chat.selectedModel;

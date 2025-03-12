@@ -1,5 +1,10 @@
-import {useSelector} from "react-redux";
-import {selectChatMessages} from "@/state/slices/chatSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    selectChatMessages,
+    selectSelectedModel,
+    setSelectedChatMessages,
+    setSelectedModel
+} from "@/state/slices/chatSlice.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import NewChat from "@/components/chat/newChat.tsx";
@@ -7,6 +12,11 @@ import ChatList from "@/components/chat/chatList.tsx";
 import MessageList from "@/components/chat/messageList.tsx";
 import {ScrollArea} from "@radix-ui/react-scroll-area";
 import {useState} from "react";
+import {useGetUserModelsMutation} from "@/state/api/modelApi.ts";
+import {usePostFetchMessagesMutation} from "@/state/api/messagesApi.ts";
+import {useEffectAsync} from "@/hooks/useEffectAsync.tsx";
+import {setUserInfo} from "@/state/slices/authSlice.ts";
+import {AppDispatch} from "@/types";
 
 const MessageInput = () => {
     const [currentMessage, setCurrentMessage] = useState("");
@@ -33,7 +43,41 @@ const MessageInput = () => {
 };
 
 const ChatContainer: React.FC = () => {
+    //const messages = useSelector(selectChatMessages);
     const messages = useSelector(selectChatMessages);
+    const [fetchMessages] = usePostFetchMessagesMutation();
+    const [isLoading, setLoading] = useState(true);
+    const dispatch: AppDispatch = useDispatch();
+    const model = useSelector(selectSelectedModel);
+
+    useEffectAsync(async () => {
+        const getMessages = async () => {
+            console.log("fetching message history...");
+            try {
+                const result = (await fetchMessages({
+                    aiModelId : "67be08c61f080c25987b52f0",
+                    receiverModel : "AIModel"
+                }));
+                console.log({ result });
+                if (result.data && result.data.messages) {
+                    dispatch(setSelectedChatMessages(result.data.messages));
+                } else {
+                    dispatch(setSelectedChatMessages([]));
+                }
+            } catch (error) {
+                console.error(error);
+                dispatch(setSelectedModel([]));
+            } finally {
+                setLoading(false);
+            }
+        };
+        await getMessages();
+        // if (!messages) {
+        //
+        // } else {
+        //     setLoading(false);
+        // }
+    }, []);
 
     return (
         <div className="flex w-full h-screen flex-row bg-gray-100 dark:bg-gray-900">

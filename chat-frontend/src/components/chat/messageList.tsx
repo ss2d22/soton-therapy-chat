@@ -11,7 +11,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages }) => {
             {messages.map((msg, index) => (
                 <div
                     key={index}
-                    className={`flex ${msg.isAI ? "justify-start" : "justify-end"}`}
+                    className={`flex ${msg.senderModel==="AIModel" ? "justify-start" : "justify-end"}`}
                 >
                     <MessageComponent msg={msg} />
                 </div>
