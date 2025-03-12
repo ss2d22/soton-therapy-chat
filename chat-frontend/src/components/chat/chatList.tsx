@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     selectChatMessages, selectUserModels,
-    setSelectedChatMessages,
+    setSelectedChatMessages, setUserModels,
 } from "@/state/slices/chatSlice";
 import {
     aiModelDetails,
@@ -9,6 +9,8 @@ import {
     ChatMessage
 } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
+import {useEffectAsync} from "@/hooks/useEffectAsync.tsx";
+import {useGetUserModelsMutation} from "@/state/api/modelApi.ts";
 
 /**
  * Textbook list component for the sidebar
@@ -21,15 +23,28 @@ const ChatList: React.FC = () => {
     //const selectedChatData = useSelector(selectCurrentChat);
     const dispatch: AppDispatch = useDispatch();
     const models = useSelector(selectUserModels);
-
+    const [fetchUserModels] = useGetUserModelsMutation({});
+    const [isLoading, setLoading] = useState(true);
 
     const handleClick = (model: aiModelDetails) => {
         dispatch(setSelectedChatMessages([]));
     };
 
+    useEffectAsync(async () => {
+        const fetchModels = async () =>{
+            const response = await fetchUserModels({});
+            console.log("models list: ", JSON.stringify(response));
+            dispatch(setUserModels(response.data.models));
+            setLoading(false);
+        }
+        if (!models) {
+            await fetchModels();
+        }
+    }, []);
+
     return (
         <div className="mt-5">
-            {models ? models.map((model) => (
+            {isLoading ? <div>Loading history...</div> : models.map((model) => (
                     <div
                         key={model._id}
                         className={`pl-10 py-2 transition-all duration-300 cursor-pointer`}
@@ -40,7 +55,7 @@ const ChatList: React.FC = () => {
                             <span>{`${model.name}`}</span>
                         </div>
                     </div>
-            )) : <div></div>}
+            ))}
 
         </div>
     );

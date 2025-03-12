@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {aiModelDetails, AppDispatch} from "@/types";
 import {useSearchModelsMutation} from "@/state/api/modelApi.ts";
+import {selectUserModels, setSelectedModel} from "@/state/slices/chatSlice.ts";
 // import {
 //     setSelectedChatType,
 //     setSelectedChatData,
@@ -60,7 +61,10 @@ const NewChat: React.FC = () => {
         //dispatch(setSelectedChatType("textbook" as ChatType));
         console.log(model);
 
-        dispatch(setSelectedChatData(textbook));
+        dispatch(setSelectedModel(model));
+        //const models = useSelector(selectUserModels);
+
+        //dispatch(setSelectedChatData(textbook));
         console.log(model);
         setSearchedModels([]);
         //setSearchedTextbooks([]);

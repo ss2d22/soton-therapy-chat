@@ -25,9 +25,10 @@ export const modelsApi = createApi({
             }),
         }),
         getUserModels: build.mutation({
-            query: () => ({
+            query: (payload) => ({
                 url: GET_USER_MODELS_URL,
                 method: "POST",
+                body: payload as string,
             }),
         }),
         searchModels: build.mutation({

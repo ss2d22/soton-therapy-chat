@@ -29,6 +29,7 @@ const chatSlice = createSlice({
 
         setSelectedModel: (state, action) => {
             state.selectedModel = action.payload;
+            //state.selectedChatMessages = useGet
         },
 
         setUserModels: (state, action) => {
