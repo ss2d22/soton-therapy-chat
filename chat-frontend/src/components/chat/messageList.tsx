@@ -1,11 +1,14 @@
 import { ChatMessage } from "@/types";
 import MessageComponent from "@/components/chat/messageComponent";
+import {useSelector} from "react-redux";
+import {selectChatMessages} from "@/state/slices/chatSlice.ts";
 
 interface MessageListProps {
     messages: ChatMessage[];
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages }) => {
+const MessageList: React.FC<MessageListProps> = () => {
+    const messages = useSelector(selectChatMessages);
     return (
         <div className="flex flex-col space-y-2 p-4">
             {messages.map((msg, index) => (

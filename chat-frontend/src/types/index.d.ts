@@ -163,7 +163,7 @@ export interface ChatMessage {
   receiverModel : modelType;
   messageType : messageType;
   isAI : boolean;
-  message: string;
+  content: string;
 }
 
 export interface ChatState {

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {
-    selectChatMessages, selectUserModels,
-    setSelectedChatMessages, setUserModels,
+    selectChatMessages, selectSelectedModel, selectUserModels,
+    setSelectedChatMessages, setSelectedModel, setUserModels,
 } from "@/state/slices/chatSlice";
 import {
     aiModelDetails,
@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {useEffectAsync} from "@/hooks/useEffectAsync.tsx";
 import {useGetUserModelsMutation} from "@/state/api/modelApi.ts";
+import {useSocket} from "@/hooks/useSocket.ts";
 
 /**
  * Textbook list component for the sidebar
@@ -23,11 +24,13 @@ const ChatList: React.FC = () => {
     //const selectedChatData = useSelector(selectCurrentChat);
     const dispatch: AppDispatch = useDispatch();
     const models = useSelector(selectUserModels);
+    //const model = useSelector(selectSelectedModel);
     const [fetchUserModels] = useGetUserModelsMutation({});
     const [isLoading, setLoading] = useState(true);
 
     const handleClick = (model: aiModelDetails) => {
-        dispatch(setSelectedChatMessages([]));
+        dispatch(setSelectedModel(model));
+        //dispatch(setSelectedChatMessages([]));
     };
 
     useEffectAsync(async () => {
@@ -46,7 +49,7 @@ const ChatList: React.FC = () => {
         <div className="mt-5">
             {isLoading ? <div>Loading history...</div> : models.map((model) => (
                     <div
-                        key={model._id}
+                        key={model.id}
                         className={`pl-10 py-2 transition-all duration-300 cursor-pointer`}
                         onClick={() => handleClick(model)}
                     >
