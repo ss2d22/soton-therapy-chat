@@ -37,6 +37,7 @@ const createHistoryRetriever = async (
     // Load the vector store.
     const vectorStore = await loadVectorStore();
 
+    // test 
     const contextualizeQSystemPrompt = `
 Given the chat history and the user's latest question (which may reference content from the chat history),
 please reformulate a standalone question that can be understood without the chat history.

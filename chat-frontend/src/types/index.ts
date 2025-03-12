@@ -149,3 +149,26 @@ export interface aiModelDetails {
   name : string;
   description : string;
 }
+
+export type modelType = "User" | "AIModel";
+
+export type messageType = "text" | "file" | "context";
+
+
+export interface ChatMessage {
+  sender : number;
+  receiver : number;
+  timeStamp : Date;
+  senderModel : modelType;
+  receiverModel : modelType;
+  messageType : messageType;
+  isAI : boolean;
+}
+
+export interface ChatState {
+  isLoading: boolean;
+  error: string | null;
+  userModels : aiModelDetails[] | undefined;
+  selectedChatMessages: ChatMessage[];
+  selectedModel : aiModelDetails | undefined;
+}

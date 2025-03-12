@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
     BACKEND_URL,
-    GET_ACTIVE_MODELS_URL
+    GET_ACTIVE_MODELS_URL, GET_USER_MODELS_URL, SEARCH_MODELS_URL
 } from "@/constants";
 
 /**
@@ -24,6 +24,20 @@ export const modelsApi = createApi({
                 method: "GET",
             }),
         }),
+        getUserModels: build.mutation({
+            query: () => ({
+                url: GET_USER_MODELS_URL,
+                method: "POST",
+            }),
+        }),
+        searchModels: build.mutation({
+            query: (payload) => ({
+                url: SEARCH_MODELS_URL,
+                method: "POST",
+                body: payload as string,
+            }),
+        }),
+
     }),
 });
 
@@ -35,4 +49,6 @@ export const modelsApi = createApi({
  */
 export const {
     useGetModelsListQuery,
+    useGetUserModelsMutation,
+    useSearchModelsMutation,
 } = modelsApi;
