@@ -75,7 +75,7 @@ const NewChat: React.FC = () => {
                 <Tooltip>
                     <TooltipTrigger>
                         <FaPlus
-                            className="text-neutral-400 font-light text-opacity-90 text-small hover:text-neutral-100 cursor-pointer transition-all duration-300 "
+                            className="w-full text-neutral-400 font-light text-opacity-90 text-small hover:text-neutral-100 cursor-pointer transition-all duration-300 "
                             onClick={() => setNewChatModal(true)}
                         />
                     </TooltipTrigger>

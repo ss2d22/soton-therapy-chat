@@ -10,7 +10,7 @@ interface MessageListProps {
 const MessageList: React.FC<MessageListProps> = () => {
     const messages = useSelector(selectChatMessages);
     return (
-        <div className="flex flex-col space-y-2 p-4">
+        <div className="w-full flex flex-col space-y-2 p-4">
             {messages.map((msg, index) => (
                 <div
                     key={index}

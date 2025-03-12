@@ -6,12 +6,10 @@ import ChatContainer from "@/components/chat/chatContainer.tsx";
 
 const Chat = () => {
     return (
-        <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+        <div className="flex h-full w-full items-center justify-center">
             <Menu/>
             <ChatContainer />
             {/*<ModelsList />*/}
-            <div className="w-full max-w-sm">
-            </div>
         </div>
     );
 };

@@ -7,6 +7,7 @@ import {
 import { aiModelDetails, AppDispatch } from "@/types";
 import { useEffectAsync } from "@/hooks/useEffectAsync.tsx";
 import { useGetUserModelsMutation } from "@/state/api/modelApi.ts";
+import { Skeleton } from "@/components/ui/skeleton"; // Add a loading skeleton
 
 /**
  * ChatList component for the sidebar
@@ -30,39 +31,48 @@ const ChatList: React.FC = () => {
                 dispatch(setUserModels(response.data.models));
             }
             setLoading(false);
+        } else {
+            setLoading(false);
         }
-        setLoading(false);
     }, []);
 
     return (
-        <div className="mt-5">
+        <div className="w-full min-w-1 h-full p-4 bg-gray-900 rounded-lg">
+            <h2 className="text-lg font-semibold text-white mb-3">AI Models</h2>
+
             {isLoading ? (
-                <div>Loading history...</div>
-            ) : (
-                models.map((model) => (
-                    <div
-                        key={model._id}
-                        className={`pl-10 py-2 transition-all duration-300 cursor-pointer 
-                        ${selectedModel?._id === model._id ? "bg-gray-700 text-white" : "text-neutral-300"}`}
-                        onClick={() => handleClick(model)}
-                    >
-                        <div className="flex gap-5 items-center justify-start">
-                            <span>{model.name}</span>
+                <div className="space-y-3">
+                    <Skeleton className="h-8 w-full bg-gray-700 rounded-md" />
+                    <Skeleton className="h-8 w-full bg-gray-700 rounded-md" />
+                    <Skeleton className="h-8 w-full bg-gray-700 rounded-md" />
+                </div>
+            ) : models.length > 0 ? (
+                <div className="space-y-2">
+                    {models.map((model) => (
+                        <div
+                            key={model._id}
+                            className={`px-4 py-2 rounded-lg transition-all duration-300 cursor-pointer flex items-center gap-3
+                            ${selectedModel?._id === model._id
+                                ? "bg-blue-600 text-white shadow-md"
+                                : "bg-gray-800 text-neutral-300 hover:bg-gray-700 hover:text-white"}`}
+                            onClick={() => handleClick(model)}
+                        >
+                            <span className="truncate">{model.name}</span>
                         </div>
-                    </div>
-                ))
+                    ))}
+                </div>
+            ) : (
+                <div className="text-neutral-400 text-sm italic">No models available</div>
             )}
 
             {/* Append an element if the selectedModel is not in the models list */}
-            {!isLoading && models && !models.some((m) => m._id === selectedModel?._id) && selectedModel && (
+            {!isLoading && models && selectedModel && !models.some((m) => m._id === selectedModel._id) && (
                 <div
                     key={selectedModel._id}
-                    className="pl-10 py-2 bg-blue-500 text-white cursor-pointer"
+                    className="px-4 py-2 mt-2 rounded-lg bg-blue-500 text-white shadow-md cursor-pointer flex items-center gap-3"
                     onClick={() => handleClick(selectedModel)}
                 >
-                    <div className="flex gap-5 items-center justify-start">
-                        <span>{selectedModel.name}</span>
-                    </div>
+                    <span className="truncate">{selectedModel.name}</span>
                 </div>
             )}
         </div>
