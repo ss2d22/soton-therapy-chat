@@ -6,7 +6,7 @@
 - GRPO
   - only 1000 steps due to computing limitations
 
-[!NOTE] both Through unsloth due to efficiency/performance gains given the limited compute resources
+> [!NOTE] both Through unsloth due to efficiency/performance gains given the limited compute resources
 
 ## Datasets tried :
 
