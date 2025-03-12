@@ -145,7 +145,7 @@ declare interface fetchUserInfoResponse {
 }
 
 export interface aiModelDetails {
-  id : string;
+  _id : string;
   name : string;
   description : string;
 }

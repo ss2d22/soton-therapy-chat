@@ -32,7 +32,7 @@ const MessageInput = () => {
         socket?.emit("send-message", {
             sender: userInfo?.id,
             content: currentMessage,
-            receiver: model?.id,
+            receiver: model?._id,
             receiverModel: "AIModel",
             isAI: false,
             messageType: "text",
@@ -45,19 +45,20 @@ const MessageInput = () => {
     }
 
     return (
-        <div className="flex w-full items-center gap-2 p-4 border-t border-gray-200 bg-white dark:bg-gray-900">
-            <Input
-                id="chatInput"
-                type="text"
-                value={currentMessage}
-                onChange={(e) => setCurrentMessage(e.target.value)}
-                placeholder="Enter your message here..."
-                className=""
-            />
-            <Button onClick={handleSend} className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
-                Send
-            </Button>
-        </div>
+        model? (<div className="flex w-full items-center gap-2 p-4 border-t border-gray-200 bg-white dark:bg-gray-900">
+                <Input
+                    id="chatInput"
+                    type="text"
+                    value={currentMessage}
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    placeholder="Enter your message here..."
+                    className=""
+                />
+                <Button onClick={handleSend} className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+                    Send
+                </Button>
+            </div>) : (<div></div>)
+
     );
 };
 
@@ -71,10 +72,12 @@ const ChatContainer: React.FC = () => {
 
     useEffectAsync(async () => {
         const getMessages = async () => {
+            setLoading(true);
             console.log("fetching message history...");
+            console.log("selected model: " + JSON.stringify(model));
             try {
                 const result = (await fetchMessages({
-                    aiModelId : "67be08c61f080c25987b52f0",
+                    aiModelId : model?._id,
                     receiverModel : "AIModel"
                 }));
                 console.log({ result });
@@ -91,7 +94,7 @@ const ChatContainer: React.FC = () => {
             }
         };
         await getMessages();
-    }, []);
+    }, [model]);
 
     return (
         <div className="flex w-full h-screen flex-row bg-gray-100 dark:bg-gray-900">
